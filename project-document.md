@@ -125,21 +125,20 @@ sudo docker login
 ### 🏗️ Build Image
 
 ```bash
-sudo docker buildx build \
--t atuljkamble/the-devops-project:latest --load .
+docker buildx build -t sheetalkadolkar/the-devops-project:latest --load .
 ```
 
 ### 📤 Push Image
 
 ```bash
-sudo docker push atuljkamble/the-devops-project:latest
+docker push sheetalkadolkar/the-devops-project:latest
 ```
 
 ### ▶️ Run Container Locally
 
 ```bash
 sudo docker images
-sudo docker run -d -p 5000:5000 atuljkamble/the-devops-project
+docker run -d -p 5000:5000 sheetalkadolkar/the-devops-project
 sudo docker container ls
 ```
 
@@ -274,7 +273,4 @@ kubectl get ns
 * Kubernetes deployment & service management
 
 ---
-
-### ✨ Built with ❤️ by **Atul Kamble**
-
 Cloud & DevOps | AWS | Kubernetes | Terraform | CI/CD

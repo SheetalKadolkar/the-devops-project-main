@@ -3,10 +3,9 @@
 # Author: Atul Kamble
 
 eksctl create cluster \
-  --name mycluster \
+  --name my-eks-cluster \
   --region us-east-1 \
-  --nodegroup-name mynodes \
-  --node-type t3.medium \
+  --node-type t3.small \
   --nodes 2 \
   --nodes-min 2 \
   --nodes-max 2 \

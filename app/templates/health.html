@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Health Status</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #28a745 0%, #20c997 50%, #17a2b8 100%);
+            min-height: 100vh;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+        }
+        
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+        
+        h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .status-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+            border-top: 4px solid #28a745;
+            margin-bottom: 30px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08); }
+            50% { box-shadow: 0 8px 25px rgba(40, 167, 69, 0.2); }
+        }
+        
+        .status-icon {
+            font-size: 4rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .status-text {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #28a745;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: #495057;
+            font-size: 1.1rem;
+        }
+        
+        .detail-value {
+            font-weight: 700;
+            color: #28a745;
+            font-size: 1.1rem;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+        
+        .timestamp {
+            color: #6c757d;
+        }
+        
+        .actions {
+            text-align: center;
+            margin-top: 40px;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.3);
+            margin: 0 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+        
+        .refresh-button {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            box-shadow: 0 6px 20px rgba(40, 167, 69, 0.3);
+        }
+        
+        .refresh-button:hover {
+            box-shadow: 0 10px 25px rgba(40, 167, 69, 0.4);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+            
+            .header {
+                padding: 30px 20px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .main-content {
+                padding: 20px;
+            }
+            
+            .status-card {
+                padding: 30px 20px;
+            }
+            
+            .status-text {
+                font-size: 1.6rem;
+            }
+            
+            .detail-item {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .button {
+                display: block;
+                margin: 10px auto;
+                width: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🩺 System Health</h1>
+            <div class="subtitle">Real-time Health Monitoring Dashboard</div>
+        </div>
+        
+        <div class="main-content">
+            <div class="status-card">
+                <div class="status-icon">✅</div>
+                <div class="status-text">System Healthy</div>
+                
+                <div class="details-grid">
+                    <div class="detail-item">
+                        <span class="detail-label">📊 Status</span>
+                        <span class="detail-value">{{ status }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">🕐 Last Check</span>
+                        <span class="detail-value timestamp">{{ timestamp }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">🏷️ Version</span>
+                        <span class="detail-value">{{ version }}</span>
+                    </div>
+                    
+                    <div class="detail-item">
+                        <span class="detail-label">🌐 Environment</span>
+                        <span class="detail-value">{{ environment }}</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="actions">
+                <button class="button refresh-button" onclick="window.location.reload()">🔄 Refresh Status</button>
+                <a href="/" class="button">🏠 Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto-refresh every 30 seconds
+        setTimeout(() => {
+            window.location.reload();
+        }, 30000);
+        
+        // Show loading state when refreshing
+        document.querySelector('.refresh-button').addEventListener('click', function() {
+            this.innerHTML = '🔄 Refreshing...';
+            this.style.opacity = '0.7';
+        });
+    </script>
+</body>
+</html>
